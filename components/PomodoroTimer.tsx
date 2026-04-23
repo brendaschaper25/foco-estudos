@@ -177,7 +177,7 @@ export default function PomodoroTimer({ settings, subjects }: { settings: Settin
 
       <div className="flex gap-3">
         <button onClick={() => setRunning(r => !r)}
-          className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-medium transition min-w-[100px]">
+          className="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 rounded-xl font-medium transition min-w-[100px]">
           {running ? 'Pausar' : 'Iniciar'}
         </button>
         {running && (
@@ -216,7 +216,7 @@ export default function PomodoroTimer({ settings, subjects }: { settings: Settin
             </p>
             <div className="flex gap-3">
               <button onClick={() => confirmEndModal(true)}
-                className="flex-1 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg transition">Sim</button>
+                className="flex-1 py-2 bg-cyan-500 hover:bg-cyan-400 rounded-lg transition">Sim</button>
               <button onClick={() => confirmEndModal(false)}
                 className="flex-1 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition">Não</button>
             </div>

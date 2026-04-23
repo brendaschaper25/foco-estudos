@@ -57,7 +57,7 @@ export default function SubjectManager({ subjects }: { subjects: Subject[] }) {
                 onChange={e => setEditNome(e.target.value)}
                 onBlur={() => saveRename(s.id)}
                 onKeyDown={e => { if (e.key === 'Enter') saveRename(s.id); if (e.key === 'Escape') setEditingId(null) }}
-                className="flex-1 bg-transparent focus:outline-none border-b border-indigo-500"
+                className="flex-1 bg-transparent focus:outline-none border-b border-cyan-500"
               />
             ) : (
               <span className="flex-1 cursor-pointer" onClick={() => { setEditingId(s.id); setEditNome(s.nome) }}>{s.nome}</span>
@@ -82,7 +82,7 @@ export default function SubjectManager({ subjects }: { subjects: Subject[] }) {
           ))}
         </div>
         <button onClick={addSubject}
-          className="w-full py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-sm transition">
+          className="w-full py-2 bg-cyan-500 hover:bg-cyan-400 rounded-lg text-sm transition">
           + Adicionar matéria
         </button>
       </div>

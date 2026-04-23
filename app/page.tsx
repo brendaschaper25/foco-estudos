@@ -94,7 +94,7 @@ export default async function DashboardPage() {
             </div>
             <div>
               <p className="text-xs tracking-widest uppercase text-gray-600 mb-1">progresso</p>
-              <p className="text-2xl font-bold" style={{ color: '#818cf8' }}>{percent}%</p>
+              <p className="text-2xl font-bold" style={{ color: '#22d3ee' }}>{percent}%</p>
             </div>
           </div>
 
@@ -102,9 +102,9 @@ export default async function DashboardPage() {
             href="/timer"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-all"
             style={{
-              background: '#818cf8',
+              background: '#22d3ee',
               color: '#030305',
-              boxShadow: '0 0 24px rgba(129,140,248,0.3)',
+              boxShadow: '0 0 24px rgba(34,211,238,0.3)',
             }}
           >
             {studiedMin === 0 ? 'Começar sessão' : 'Continuar'} →

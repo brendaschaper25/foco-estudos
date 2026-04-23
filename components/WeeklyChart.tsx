@@ -15,7 +15,7 @@ export default function WeeklyChart({ days, subjects }: { days: DayData[], subje
             <YAxis stroke="#6b7280" fontSize={12} unit="h" />
             <Tooltip formatter={(v) => [`${v}h`, 'Horas']}
               contentStyle={{ background: '#111827', border: 'none' }} />
-            <Bar dataKey="horas" fill="#6366f1" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="horas" fill="#22d3ee" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>

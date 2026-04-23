@@ -30,7 +30,7 @@ export default function SettingsForm({ settings, presets }: { settings: Settings
       <div className="flex items-center gap-2">
         <input type="number" min={min} max={max} value={form[key]}
           onChange={e => setField(key, Math.min(max, Math.max(min, Number(e.target.value))))}
-          className="w-20 px-3 py-1 bg-gray-800 rounded-lg text-center focus:outline-none focus:ring-1 focus:ring-indigo-500" />
+          className="w-20 px-3 py-1 bg-gray-800 rounded-lg text-center focus:outline-none focus:ring-1 focus:ring-cyan-500" />
         <span className="text-gray-500 text-sm w-8">{unit}</span>
       </div>
     </div>
@@ -46,7 +46,7 @@ export default function SettingsForm({ settings, presets }: { settings: Settings
         {field('Ciclos até pausa longa', 'ciclos_ate_pausa_longa', 1, 10, 'x')}
         {field('Meta diária', 'meta_horas_dia', 0, 24, 'h')}
         <button onClick={save}
-          className="w-full py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-medium transition mt-2">
+          className="w-full py-2 bg-cyan-500 hover:bg-cyan-400 rounded-lg font-medium transition mt-2">
           Salvar configurações
         </button>
       </div>

@@ -4,11 +4,11 @@
 
 /* ─── Tokens ───────────────────────────────────── */
 :root {
-  --bg:        #030305;
-  --accent:    #818cf8;
-  --accent-dim: rgba(129,140,248,0.12);
-  --surface:   rgba(255,255,255,0.035);
-  --border:    rgba(255,255,255,0.08);
+  --bg:        #010d14;
+  --accent:    #22d3ee;
+  --accent-dim: rgba(34,211,238,0.10);
+  --surface:   rgba(255,255,255,0.03);
+  --border:    rgba(255,255,255,0.07);
 }
 
 /* ─── Base ─────────────────────────────────────── */
@@ -16,22 +16,20 @@ html { scroll-behavior: smooth; }
 
 body {
   background-color: var(--bg);
-  /* Dot grid — papel quadriculado de estudo */
-  background-image: radial-gradient(rgba(255,255,255,0.045) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
   background-size: 28px 28px;
-  color: #f1f1f5;
+  color: #f0f9ff;
   -webkit-font-smoothing: antialiased;
   min-height: 100dvh;
 }
 
-/* Noise overlay */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 998;
-  opacity: 0.03;
+  opacity: 0.025;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 128px 128px;
 }
@@ -39,12 +37,19 @@ body::before {
 /* ─── Scrollbar ────────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 9999px; }
+::-webkit-scrollbar-thumb { background: rgba(34,211,238,0.15); border-radius: 9999px; }
 
-/* ─── Rings animation ──────────────────────────── */
-@keyframes ring-pulse {
-  0%, 100% { opacity: 1;   }
-  50%       { opacity: 0.4; }
+/* ─── Ripple (sonar/onda) ──────────────────────── */
+@keyframes ripple {
+  0%   { transform: translate(-50%,-50%) scale(0.05); opacity: 0.9; }
+  70%  { opacity: 0.25; }
+  100% { transform: translate(-50%,-50%) scale(1);    opacity: 0; }
+}
+
+/* ─── Center pulse ─────────────────────────────── */
+@keyframes center-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(34,211,238,0.15), 0 0 30px 8px rgba(34,211,238,0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(34,211,238,0.08), 0 0 50px 16px rgba(34,211,238,0.25); }
 }
 
 /* ─── Utilities ────────────────────────────────── */
@@ -57,8 +62,8 @@ body::before {
   }
   .glass-hover { transition: background 0.2s, border-color 0.2s; }
   .glass-hover:hover {
-    background: rgba(255,255,255,0.06);
-    border-color: rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.055);
+    border-color: rgba(34,211,238,0.18);
   }
   .text-balance { text-wrap: balance; }
 }
