@@ -91,7 +91,7 @@ export default function SubjectManager({ subjects }: { subjects: Subject[] }) {
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
           <div className="bg-gray-900 rounded-2xl p-8 max-w-sm w-full mx-4 space-y-4">
             <h3 className="font-semibold">Deletar matéria?</h3>
-            <p className="text-gray-400 text-sm">Sessões existentes ficam como "Sem matéria".</p>
+            <p className="text-gray-400 text-sm">Sessões existentes ficam como &quot;Sem matéria&quot;.</p>
             <div className="flex gap-3">
               <button onClick={() => deleteSubject(deleteId)}
                 className="flex-1 py-2 bg-red-700 hover:bg-red-600 rounded-lg transition">Deletar</button>

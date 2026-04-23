@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase-server'
 import { redirect } from 'next/navigation'
 import WeeklyChart from '@/components/WeeklyChart'
-import { getTodayBR } from '@/lib/utils'
 import { Session, Subject } from '@/types'
 
 export default async function HistoricoPage() {
@@ -9,7 +8,6 @@ export default async function HistoricoPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const today = getTodayBR()
   const sevenDaysAgo = new Date()
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6)
   const startDate = sevenDaysAgo.toLocaleDateString('sv-SE', { timeZone: 'America/Sao_Paulo' })

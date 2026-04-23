@@ -30,7 +30,7 @@ export function calcStreak(sessionDates: string[]): number {
   if (!startDate) return 0
 
   let streak = 0
-  let current = new Date(startDate + 'T12:00:00')
+  const current = new Date(startDate + 'T12:00:00')
 
   for (const date of unique) {
     const expected = current.toLocaleDateString('sv-SE', { timeZone: 'America/Sao_Paulo' })

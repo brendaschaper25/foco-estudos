@@ -25,18 +25,7 @@ export default function PomodoroTimer({ settings, subjects }: { settings: Settin
     return settings.pausa_longa_min * 60
   }, [settings])
 
-  useEffect(() => {
-    if (!running) return
-    const id = setInterval(() => {
-      setSecondsLeft(s => {
-        if (s <= 1) { clearInterval(id); handlePhaseComplete(); return 0 }
-        return s - 1
-      })
-    }, 1000)
-    return () => clearInterval(id)
-  }, [running, phase])
-
-  async function saveSession(duracao_min: number) {
+  const saveSession = useCallback(async (duracao_min: number) => {
     const { error } = await supabase.from('sessions').insert({
       subject_id: selectedSubjectId,
       duracao_min,
@@ -47,19 +36,9 @@ export default function PomodoroTimer({ settings, subjects }: { settings: Settin
     } else {
       router.refresh()
     }
-  }
+  }, [supabase, selectedSubjectId, router])
 
-  async function retryPending() {
-    if (!pendingSession) return
-    const { error } = await supabase.from('sessions').insert({
-      subject_id: selectedSubjectId,
-      duracao_min: pendingSession.duracao_min,
-    })
-    if (!error) { setPendingSession(null); router.refresh() }
-    else toast.error('Falha novamente. Verifique sua conexão.')
-  }
-
-  function handlePhaseComplete() {
+  const handlePhaseComplete = useCallback(() => {
     if (phase === 'foco') {
       saveSession(settings.foco_min)
       const newCycle = cycleCount + 1
@@ -72,6 +51,27 @@ export default function PomodoroTimer({ settings, subjects }: { settings: Settin
       setSecondsLeft(phaseDuration('foco'))
     }
     setRunning(false)
+  }, [phase, cycleCount, settings, phaseDuration, saveSession])
+
+  useEffect(() => {
+    if (!running) return
+    const id = setInterval(() => {
+      setSecondsLeft(s => {
+        if (s <= 1) { clearInterval(id); handlePhaseComplete(); return 0 }
+        return s - 1
+      })
+    }, 1000)
+    return () => clearInterval(id)
+  }, [running, phase, handlePhaseComplete])
+
+  async function retryPending() {
+    if (!pendingSession) return
+    const { error } = await supabase.from('sessions').insert({
+      subject_id: selectedSubjectId,
+      duracao_min: pendingSession.duracao_min,
+    })
+    if (!error) { setPendingSession(null); router.refresh() }
+    else toast.error('Falha novamente. Verifique sua conexão.')
   }
 
   function skipPhase() { handlePhaseComplete() }
