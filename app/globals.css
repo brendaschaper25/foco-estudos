@@ -4,11 +4,11 @@
 
 /* ─── Tokens ───────────────────────────────────── */
 :root {
-  --bg:        #06060f;
-  --surface:   rgba(255,255,255,0.03);
-  --border:    rgba(255,255,255,0.07);
-  --indigo:    #6366f1;
-  --indigo-dim: rgba(99,102,241,0.12);
+  --bg:        #030305;
+  --accent:    #818cf8;
+  --accent-dim: rgba(129,140,248,0.12);
+  --surface:   rgba(255,255,255,0.035);
+  --border:    rgba(255,255,255,0.08);
 }
 
 /* ─── Base ─────────────────────────────────────── */
@@ -16,54 +16,49 @@ html { scroll-behavior: smooth; }
 
 body {
   background-color: var(--bg);
+  /* Dot grid — papel quadriculado de estudo */
+  background-image: radial-gradient(rgba(255,255,255,0.045) 1px, transparent 1px);
+  background-size: 28px 28px;
   color: #f1f1f5;
-  font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   min-height: 100dvh;
-  /* Atmospheric glow from top */
-  background-image:
-    radial-gradient(ellipse 80% 40% at 50% -10%, rgba(99,102,241,0.18) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 30% at 80% 80%, rgba(139,92,246,0.07) 0%, transparent 60%);
 }
 
-/* Noise overlay — removes digital sterility */
+/* Noise overlay */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 999;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  z-index: 998;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 128px 128px;
 }
 
 /* ─── Scrollbar ────────────────────────────────── */
-::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 9999px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.18); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 9999px; }
 
-/* ─── Glass utility ────────────────────────────── */
+/* ─── Rings animation ──────────────────────────── */
+@keyframes ring-pulse {
+  0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+  50%       { opacity: 0.3; transform: translate(-50%, -50%) scale(1.02); }
+}
+
+/* ─── Utilities ────────────────────────────────── */
 @layer utilities {
   .glass {
     background: var(--surface);
     border: 1px solid var(--border);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
-
-  .glass-hover {
-    transition: background 0.2s, border-color 0.2s;
-  }
+  .glass-hover { transition: background 0.2s, border-color 0.2s; }
   .glass-hover:hover {
-    background: rgba(255,255,255,0.055);
-    border-color: rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.14);
   }
-
-  .glow-indigo {
-    box-shadow: 0 0 40px rgba(99,102,241,0.25);
-  }
-
   .text-balance { text-wrap: balance; }
 }

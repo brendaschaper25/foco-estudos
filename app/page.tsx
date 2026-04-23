@@ -1,11 +1,11 @@
 import { createClient } from '@/lib/supabase-server'
 import { redirect } from 'next/navigation'
-import RingProgress from '@/components/RingProgress'
 import DailyGoals from '@/components/DailyGoals'
 import SubjectCards from '@/components/SubjectCards'
 import Link from 'next/link'
 import { calcProgress, calcStreak, formatMinutes, getTodayBR } from '@/lib/utils'
 import { Settings, Subject, Session, DailyGoal } from '@/types'
+import RingProgress from '@/components/RingProgress'
 
 export default async function DashboardPage() {
   const supabase = createClient()
@@ -14,7 +14,7 @@ export default async function DashboardPage() {
 
   const today = getTodayBR()
   const todayLabel = new Date().toLocaleDateString('pt-BR', {
-    weekday: 'long', day: 'numeric', month: 'long', timeZone: 'America/Sao_Paulo'
+    weekday: 'long', day: 'numeric', month: 'long', timeZone: 'America/Sao_Paulo',
   })
 
   const [{ data: settings }, { data: sessions }, { data: goals }, { data: subjects }] = await Promise.all([
@@ -30,9 +30,7 @@ export default async function DashboardPage() {
   const studiedMin = todaySessions.reduce((acc, s) => acc + s.duracao_min, 0)
   const goalMin = Math.round((cfg?.meta_horas_dia ?? 2) * 60)
   const percent = calcProgress(studiedMin, cfg?.meta_horas_dia ?? 2)
-
-  const sessionDates = allSessions.map(s => s.criado_em.slice(0, 10))
-  const streak = calcStreak(sessionDates)
+  const streak = calcStreak(allSessions.map(s => s.criado_em.slice(0, 10)))
 
   const subjectMap = Object.fromEntries((subjects as Subject[]).map(s => [s.id, s]))
   const subjectStats = todaySessions.reduce((acc: Record<string, { nome: string; cor: string; total_min: number }>, s) => {
@@ -44,49 +42,74 @@ export default async function DashboardPage() {
     return acc
   }, {})
 
-  return (
-    <div className="space-y-8">
+  const goalReached = studiedMin >= goalMin && goalMin > 0
 
-      {/* Header */}
-      <div className="flex items-start justify-between">
+  return (
+    <div className="space-y-10">
+
+      {/* Header editorial */}
+      <div className="flex items-end justify-between border-b border-white/5 pb-6">
         <div>
-          <p className="text-xs text-gray-500 uppercase tracking-widest mb-1 capitalize">{todayLabel}</p>
-          <h1 className="text-2xl font-bold">Hoje</h1>
+          <p className="text-xs tracking-[0.2em] uppercase text-gray-600 mb-1 capitalize">{todayLabel}</p>
+          <h1 className="text-3xl font-black tracking-tight">Hoje</h1>
         </div>
         {streak > 0 && (
-          <div className="flex items-center gap-1.5 bg-orange-500/10 border border-orange-500/20 text-orange-400 text-sm font-medium px-3 py-1.5 rounded-full">
-            🔥 <span>{streak} {streak === 1 ? 'dia' : 'dias'}</span>
+          <div className="flex items-center gap-1.5 text-sm">
+            <span className="text-orange-400 font-bold text-lg">🔥</span>
+            <span className="font-bold text-white">{streak}</span>
+            <span className="text-gray-500 text-xs">{streak === 1 ? 'dia seguido' : 'dias seguidos'}</span>
           </div>
         )}
       </div>
 
-      {/* Hero: progresso do dia */}
-      <div className="bg-gradient-to-br from-gray-900 to-gray-900/60 border border-white/5 rounded-2xl p-8 flex flex-col items-center gap-5">
-        <RingProgress percent={percent} studiedMin={studiedMin} goalMin={goalMin} size={200} />
+      {/* Hero: progress */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
 
-        <div className="flex items-center gap-6 text-sm">
-          <div className="text-center">
-            <p className="text-2xl font-bold">{formatMinutes(studiedMin)}</p>
-            <p className="text-gray-500 text-xs mt-0.5">estudados</p>
-          </div>
-          <div className="w-px h-8 bg-white/10" />
-          <div className="text-center">
-            <p className="text-2xl font-bold text-gray-400">{formatMinutes(goalMin)}</p>
-            <p className="text-gray-500 text-xs mt-0.5">meta</p>
-          </div>
-          <div className="w-px h-8 bg-white/10" />
-          <div className="text-center">
-            <p className="text-2xl font-bold">{todaySessions.length}</p>
-            <p className="text-gray-500 text-xs mt-0.5">{todaySessions.length === 1 ? 'sessão' : 'sessões'}</p>
+        {/* Ring centralizado */}
+        <div className="flex justify-center">
+          <div className="relative">
+            <RingProgress percent={percent} studiedMin={studiedMin} goalMin={goalMin} size={220} />
+            {goalReached && (
+              <div className="absolute -top-2 -right-2 text-xl">✨</div>
+            )}
           </div>
         </div>
 
-        <Link
-          href="/timer"
-          className="px-8 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-medium transition text-sm"
-        >
-          {studiedMin === 0 ? 'Começar →' : 'Continuar →'}
-        </Link>
+        {/* Stats em escala editorial */}
+        <div className="space-y-6">
+          <div>
+            <p className="text-xs tracking-widest uppercase text-gray-600 mb-1">estudado</p>
+            <p className="text-5xl font-black tracking-tight" style={{ color: goalReached ? '#34d399' : '#f1f1f5' }}>
+              {formatMinutes(studiedMin)}
+            </p>
+          </div>
+          <div>
+            <p className="text-xs tracking-widest uppercase text-gray-600 mb-1">meta</p>
+            <p className="text-2xl font-bold text-gray-500">{formatMinutes(goalMin)}</p>
+          </div>
+          <div className="flex items-center gap-4">
+            <div>
+              <p className="text-xs tracking-widest uppercase text-gray-600 mb-1">sessões</p>
+              <p className="text-2xl font-bold">{todaySessions.length}</p>
+            </div>
+            <div>
+              <p className="text-xs tracking-widest uppercase text-gray-600 mb-1">progresso</p>
+              <p className="text-2xl font-bold" style={{ color: '#818cf8' }}>{percent}%</p>
+            </div>
+          </div>
+
+          <Link
+            href="/timer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-all"
+            style={{
+              background: '#818cf8',
+              color: '#030305',
+              boxShadow: '0 0 24px rgba(129,140,248,0.3)',
+            }}
+          >
+            {studiedMin === 0 ? 'Começar sessão' : 'Continuar'} →
+          </Link>
+        </div>
       </div>
 
       <SubjectCards stats={Object.values(subjectStats)} />
