@@ -2,7 +2,14 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase-browser'
 
-const RINGS = [160, 280, 400, 520, 640, 760]
+const RINGS = [
+  { size: 140,  opacity: 0.55, glow: 14, delay: 0 },
+  { size: 260,  opacity: 0.38, glow: 10, delay: 0.4 },
+  { size: 400,  opacity: 0.24, glow: 6,  delay: 0.8 },
+  { size: 560,  opacity: 0.14, glow: 4,  delay: 1.2 },
+  { size: 730,  opacity: 0.08, glow: 2,  delay: 1.6 },
+  { size: 920,  opacity: 0.04, glow: 0,  delay: 2.0 },
+]
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -29,30 +36,33 @@ export default function LoginPage() {
 
       {/* Anéis concêntricos — motivo "foco" */}
       <div className="pointer-events-none absolute left-1/2 top-1/2" aria-hidden>
-        {RINGS.map((size, i) => (
+        {RINGS.map((ring, i) => (
           <div
-            key={size}
+            key={ring.size}
             style={{
-              width: size,
-              height: size,
+              width: ring.size,
+              height: ring.size,
               position: 'absolute',
               left: '50%',
               top: '50%',
               transform: 'translate(-50%, -50%)',
               borderRadius: '50%',
-              border: `1px solid rgba(129,140,248,${0.18 - i * 0.025})`,
-              animation: `ring-pulse ${4 + i * 0.6}s ease-in-out ${i * 0.3}s infinite`,
+              border: `1px solid rgba(129,140,248,${ring.opacity})`,
+              boxShadow: ring.glow > 0
+                ? `0 0 ${ring.glow}px rgba(129,140,248,${ring.opacity * 0.6}), inset 0 0 ${ring.glow}px rgba(129,140,248,0.05)`
+                : 'none',
+              animation: `ring-pulse ${4.5 + i * 0.5}s ease-in-out ${ring.delay}s infinite`,
             }}
           />
         ))}
         {/* Centro iluminado */}
         <div style={{
-          width: 8, height: 8,
+          width: 12, height: 12,
           position: 'absolute', left: '50%', top: '50%',
           transform: 'translate(-50%, -50%)',
           borderRadius: '50%',
           background: '#818cf8',
-          boxShadow: '0 0 24px 8px rgba(129,140,248,0.4)',
+          boxShadow: '0 0 0 4px rgba(129,140,248,0.2), 0 0 40px 12px rgba(129,140,248,0.5)',
         }} />
       </div>
 
