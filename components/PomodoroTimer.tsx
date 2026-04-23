@@ -194,9 +194,23 @@ export default function PomodoroTimer({ settings, subjects }: { settings: Settin
         <button
           onClick={() => setMuted(m => !m)}
           title={muted ? 'Ativar som' : 'Silenciar'}
-          className="px-3 py-3 bg-gray-800 hover:bg-gray-700 rounded-xl text-sm transition"
+          className="px-3 py-3 bg-gray-800 hover:bg-gray-700 rounded-xl transition flex items-center justify-center"
+          style={{ width: 48, height: 48 }}
         >
-          {muted ? '🔕' : '🔔'}
+          {muted ? (
+            /* Sino riscado */
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M9 2C9 2 5 4 5 9v3l-1.5 1.5h11L13 12V9C13 4 9 2 9 2Z" stroke="white" strokeWidth="1.2" strokeLinejoin="round" fill="none" opacity="0.45"/>
+              <path d="M7.5 15.5a1.5 1.5 0 003 0" stroke="white" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.45"/>
+              <line x1="2" y1="2" x2="16" y2="16" stroke="white" strokeWidth="1.2" strokeLinecap="round" opacity="0.45"/>
+            </svg>
+          ) : (
+            /* Sino normal */
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M9 2C9 2 5 4 5 9v3l-1.5 1.5h11L13 12V9C13 4 9 2 9 2Z" stroke="white" strokeWidth="1.2" strokeLinejoin="round" fill="none" opacity="0.85"/>
+              <path d="M7.5 15.5a1.5 1.5 0 003 0" stroke="white" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.85"/>
+            </svg>
+          )}
         </button>
       </div>
 

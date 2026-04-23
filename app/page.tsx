@@ -55,13 +55,9 @@ export default async function DashboardPage() {
         </div>
         {streak > 0 && (
           <div className="glass rounded-lg px-3 py-1.5 flex items-center gap-2">
-            {/* Ícone de streak — traço ascendente minimalista */}
-            <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
-              <polyline points="2,12 6,2 10,12" stroke="white" strokeWidth="1.4" strokeLinejoin="round" fill="none" opacity="0.7"/>
-            </svg>
             <span className="font-bold text-white text-sm">{streak}</span>
             <span className="label-dim" style={{ textTransform: 'none', letterSpacing: '0.05em', fontSize: 11 }}>
-              {streak === 1 ? 'dia' : 'dias'}
+              {streak === 1 ? 'dia seguido' : 'dias seguidos'}
             </span>
           </div>
         )}
