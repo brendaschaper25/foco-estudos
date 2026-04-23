@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase-browser'
 import { Settings, Subject } from '@/types'
@@ -7,6 +7,34 @@ import RingProgress from './RingProgress'
 import toast from 'react-hot-toast'
 
 type Phase = 'foco' | 'pausa_curta' | 'pausa_longa'
+
+function playChime(type: 'focus_done' | 'break_done') {
+  try {
+    const ctx = new AudioContext()
+    const gain = ctx.createGain()
+    gain.connect(ctx.destination)
+
+    const notes = type === 'focus_done'
+      ? [523.25, 659.25, 783.99] // C5 E5 G5 — acorde maior ascendente (recompensa)
+      : [783.99, 659.25]          // G5 E5 — dois tons suaves (aviso gentil)
+
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator()
+      osc.type = 'sine'
+      osc.frequency.value = freq
+      osc.connect(gain)
+      osc.start(ctx.currentTime + i * 0.18)
+      osc.stop(ctx.currentTime + i * 0.18 + 0.3)
+    })
+
+    gain.gain.setValueAtTime(0.4, ctx.currentTime)
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + notes.length * 0.18 + 0.35)
+
+    setTimeout(() => ctx.close(), (notes.length * 0.18 + 0.5) * 1000)
+  } catch {
+    // AudioContext não disponível (SSR ou browser restrito)
+  }
+}
 
 export default function PomodoroTimer({ settings, subjects }: { settings: Settings, subjects: Subject[] }) {
   const [selectedSubjectId, setSelectedSubjectId] = useState<string | null>(null)
@@ -16,6 +44,10 @@ export default function PomodoroTimer({ settings, subjects }: { settings: Settin
   const [running, setRunning] = useState(false)
   const [showEndModal, setShowEndModal] = useState(false)
   const [pendingSession, setPendingSession] = useState<{ duracao_min: number } | null>(null)
+  const [muted, setMuted] = useState(false)
+  const mutedRef = useRef(muted)
+  mutedRef.current = muted
+
   const router = useRouter()
   const supabase = createClient()
 
@@ -40,6 +72,7 @@ export default function PomodoroTimer({ settings, subjects }: { settings: Settin
 
   const handlePhaseComplete = useCallback(() => {
     if (phase === 'foco') {
+      if (!mutedRef.current) playChime('focus_done')
       saveSession(settings.foco_min)
       const newCycle = cycleCount + 1
       setCycleCount(newCycle)
@@ -47,6 +80,7 @@ export default function PomodoroTimer({ settings, subjects }: { settings: Settin
       setPhase(nextPhase)
       setSecondsLeft(phaseDuration(nextPhase))
     } else {
+      if (!mutedRef.current) playChime('break_done')
       setPhase('foco')
       setSecondsLeft(phaseDuration('foco'))
     }
@@ -63,6 +97,18 @@ export default function PomodoroTimer({ settings, subjects }: { settings: Settin
     }, 1000)
     return () => clearInterval(id)
   }, [running, phase, handlePhaseComplete])
+
+  // Barra de espaço: iniciar/pausar
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.code !== 'Space') return
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement || e.target instanceof HTMLTextAreaElement) return
+      e.preventDefault()
+      setRunning(r => !r)
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [])
 
   async function retryPending() {
     if (!pendingSession) return
@@ -144,7 +190,16 @@ export default function PomodoroTimer({ settings, subjects }: { settings: Settin
           className="px-4 py-3 bg-gray-800 hover:bg-red-900 rounded-xl text-sm transition">
           Encerrar
         </button>
+        <button
+          onClick={() => setMuted(m => !m)}
+          title={muted ? 'Ativar som' : 'Silenciar'}
+          className="px-3 py-3 bg-gray-800 hover:bg-gray-700 rounded-xl text-sm transition"
+        >
+          {muted ? '🔕' : '🔔'}
+        </button>
       </div>
+
+      <p className="text-xs text-gray-600">Espaço para pausar / iniciar</p>
 
       {pendingSession && (
         <button onClick={retryPending} className="text-sm text-yellow-400 hover:underline">
