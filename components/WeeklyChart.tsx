@@ -13,7 +13,7 @@ export default function WeeklyChart({ days, subjects }: { days: DayData[], subje
           <BarChart data={days}>
             <XAxis dataKey="label" stroke="#6b7280" fontSize={12} />
             <YAxis stroke="#6b7280" fontSize={12} unit="h" />
-            <Tooltip formatter={(v: number) => [`${v}h`, 'Horas']}
+            <Tooltip formatter={(v) => [`${v}h`, 'Horas']}
               contentStyle={{ background: '#111827', border: 'none' }} />
             <Bar dataKey="horas" fill="#6366f1" radius={[4, 4, 0, 0]} />
           </BarChart>
@@ -29,7 +29,7 @@ export default function WeeklyChart({ days, subjects }: { days: DayData[], subje
                 <Pie data={subjects} dataKey="minutos" cx="50%" cy="50%" outerRadius={70}>
                   {subjects.map((s, i) => <Cell key={i} fill={s.cor} />)}
                 </Pie>
-                <Tooltip formatter={(v: number) => [`${Math.round(v / 60 * 10) / 10}h`, '']}
+                <Tooltip formatter={(v) => [`${Math.round(Number(v) / 60 * 10) / 10}h`, '']}
                   contentStyle={{ background: '#111827', border: 'none' }} />
               </PieChart>
             </ResponsiveContainer>

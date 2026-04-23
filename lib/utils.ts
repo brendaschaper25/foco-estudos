@@ -23,7 +23,7 @@ export function calcStreak(sessionDates: string[]): number {
   yesterday.setDate(yesterday.getDate() - 1)
   const yesterdayStr = yesterday.toLocaleDateString('sv-SE', { timeZone: 'America/Sao_Paulo' })
 
-  const unique = [...new Set(sessionDates)].sort().reverse()
+  const unique = Array.from(new Set(sessionDates)).sort().reverse()
 
   // Se hoje não tem sessão, começar a contar do ontem
   const startDate = unique[0] === today ? today : unique[0] === yesterdayStr ? yesterdayStr : null
