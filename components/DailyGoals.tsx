@@ -29,7 +29,7 @@ export default function DailyGoals({ goals, today }: { goals: DailyGoal[], today
   }
 
   return (
-    <div className="bg-gray-900 rounded-2xl p-6">
+    <div className="glass rounded-2xl p-6">
       <h2 className="font-semibold text-lg mb-4">Metas de hoje</h2>
       <div className="space-y-2 mb-4">
         {goals.map(g => (
@@ -46,7 +46,7 @@ export default function DailyGoals({ goals, today }: { goals: DailyGoal[], today
         <input value={text} onChange={e => setText(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && addGoal()}
           placeholder="Adicionar meta..."
-          className="flex-1 px-3 py-2 bg-gray-800 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500" />
+          className="flex-1 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 placeholder:text-gray-600" />
         <button onClick={addGoal} className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-sm transition">
           +
         </button>

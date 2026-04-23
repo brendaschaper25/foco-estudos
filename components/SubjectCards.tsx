@@ -7,7 +7,7 @@ export default function SubjectCards({ stats }: { stats: SubjectStat[] }) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
       {stats.map(s => (
-        <div key={s.nome} className="bg-gray-900 rounded-xl p-4 flex items-center gap-3">
+        <div key={s.nome} className="glass glass-hover rounded-xl p-4 flex items-center gap-3">
           <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: s.cor }} />
           <div>
             <p className="text-sm font-medium">{s.nome}</p>

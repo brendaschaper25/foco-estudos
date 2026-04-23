@@ -7,7 +7,7 @@ type SubjectData = { nome: string; cor: string; minutos: number }
 export default function WeeklyChart({ days, subjects }: { days: DayData[], subjects: SubjectData[] }) {
   return (
     <div className="space-y-8">
-      <div className="bg-gray-900 rounded-2xl p-6">
+      <div className="glass rounded-2xl p-6">
         <h3 className="font-semibold mb-4">Últimos 7 dias</h3>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={days}>
@@ -21,7 +21,7 @@ export default function WeeklyChart({ days, subjects }: { days: DayData[], subje
       </div>
 
       {subjects.length > 0 && (
-        <div className="bg-gray-900 rounded-2xl p-6">
+        <div className="glass rounded-2xl p-6">
           <h3 className="font-semibold mb-4">Por matéria esta semana</h3>
           <div className="flex items-center gap-8">
             <ResponsiveContainer width={160} height={160}>

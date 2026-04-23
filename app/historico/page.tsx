@@ -47,11 +47,11 @@ export default async function HistoricoPage() {
     <div className="space-y-6">
       <h1 className="text-xl font-bold">Histórico</h1>
       <div className="flex gap-6">
-        <div className="bg-gray-900 rounded-xl p-4 flex-1 text-center">
+        <div className="glass rounded-xl p-4 flex-1 text-center">
           <p className="text-3xl font-bold">{Math.round(totalMin / 60 * 10) / 10}h</p>
           <p className="text-gray-400 text-sm">na semana</p>
         </div>
-        <div className="bg-gray-900 rounded-xl p-4 flex-1 text-center">
+        <div className="glass rounded-xl p-4 flex-1 text-center">
           <p className="text-3xl font-bold">{totalPomodoros}</p>
           <p className="text-gray-400 text-sm">pomodoros</p>
         </div>
