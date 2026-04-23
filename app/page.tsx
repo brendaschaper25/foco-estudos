@@ -4,7 +4,7 @@ import RingProgress from '@/components/RingProgress'
 import DailyGoals from '@/components/DailyGoals'
 import SubjectCards from '@/components/SubjectCards'
 import Link from 'next/link'
-import { calcProgress, calcStreak, getTodayBR } from '@/lib/utils'
+import { calcProgress, calcStreak, formatMinutes, getTodayBR } from '@/lib/utils'
 import { Settings, Subject, Session, DailyGoal } from '@/types'
 
 export default async function DashboardPage() {
@@ -13,6 +13,9 @@ export default async function DashboardPage() {
   if (!user) redirect('/login')
 
   const today = getTodayBR()
+  const todayLabel = new Date().toLocaleDateString('pt-BR', {
+    weekday: 'long', day: 'numeric', month: 'long', timeZone: 'America/Sao_Paulo'
+  })
 
   const [{ data: settings }, { data: sessions }, { data: goals }, { data: subjects }] = await Promise.all([
     supabase.from('settings').select('*').eq('user_id', user.id).single(),
@@ -42,16 +45,47 @@ export default async function DashboardPage() {
   }, {})
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold">Hoje</h1>
-        {streak > 0 && <span className="text-orange-400 font-medium">🔥 {streak} {streak === 1 ? 'dia' : 'dias'} seguidos</span>}
+    <div className="space-y-8">
+
+      {/* Header */}
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-xs text-gray-500 uppercase tracking-widest mb-1 capitalize">{todayLabel}</p>
+          <h1 className="text-2xl font-bold">Hoje</h1>
+        </div>
+        {streak > 0 && (
+          <div className="flex items-center gap-1.5 bg-orange-500/10 border border-orange-500/20 text-orange-400 text-sm font-medium px-3 py-1.5 rounded-full">
+            🔥 <span>{streak} {streak === 1 ? 'dia' : 'dias'}</span>
+          </div>
+        )}
       </div>
 
-      <div className="flex flex-col items-center gap-4">
-        <RingProgress percent={percent} studiedMin={studiedMin} goalMin={goalMin} />
-        <Link href="/timer" className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-medium transition">
-          Iniciar sessão →
+      {/* Hero: progresso do dia */}
+      <div className="bg-gradient-to-br from-gray-900 to-gray-900/60 border border-white/5 rounded-2xl p-8 flex flex-col items-center gap-5">
+        <RingProgress percent={percent} studiedMin={studiedMin} goalMin={goalMin} size={200} />
+
+        <div className="flex items-center gap-6 text-sm">
+          <div className="text-center">
+            <p className="text-2xl font-bold">{formatMinutes(studiedMin)}</p>
+            <p className="text-gray-500 text-xs mt-0.5">estudados</p>
+          </div>
+          <div className="w-px h-8 bg-white/10" />
+          <div className="text-center">
+            <p className="text-2xl font-bold text-gray-400">{formatMinutes(goalMin)}</p>
+            <p className="text-gray-500 text-xs mt-0.5">meta</p>
+          </div>
+          <div className="w-px h-8 bg-white/10" />
+          <div className="text-center">
+            <p className="text-2xl font-bold">{todaySessions.length}</p>
+            <p className="text-gray-500 text-xs mt-0.5">{todaySessions.length === 1 ? 'sessão' : 'sessões'}</p>
+          </div>
+        </div>
+
+        <Link
+          href="/timer"
+          className="px-8 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-medium transition text-sm"
+        >
+          {studiedMin === 0 ? 'Começar →' : 'Continuar →'}
         </Link>
       </div>
 
