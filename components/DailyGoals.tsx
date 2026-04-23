@@ -35,9 +35,9 @@ export default function DailyGoals({ goals, today }: { goals: DailyGoal[], today
         {goals.map(g => (
           <div key={g.id} className="flex items-center gap-3">
             <input type="checkbox" checked={g.concluida} onChange={() => toggle(g)}
-              className="w-4 h-4 accent-cyan-400" />
+              className="w-4 h-4 accent-white" />
             <span className={g.concluida ? 'line-through text-gray-500' : ''}>{g.descricao}</span>
-            <button onClick={() => remove(g.id)} className="ml-auto text-gray-600 hover:text-red-400 text-xs">✕</button>
+            <button onClick={() => remove(g.id)} className="ml-auto text-gray-400 hover:text-red-400 text-xs">✕</button>
           </div>
         ))}
         {goals.length === 0 && <p className="text-gray-500 text-sm">Nenhuma meta adicionada</p>}
@@ -46,8 +46,8 @@ export default function DailyGoals({ goals, today }: { goals: DailyGoal[], today
         <input value={text} onChange={e => setText(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && addGoal()}
           placeholder="Adicionar meta..."
-          className="flex-1 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-cyan-500 placeholder:text-gray-600" />
-        <button onClick={addGoal} className="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 rounded-lg text-sm transition">
+          className="flex-1 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-white/30 placeholder:text-gray-500" />
+        <button onClick={addGoal} className="px-4 py-2 bg-white hover:bg-gray-100 text-gray-900 rounded-lg text-sm transition">
           +
         </button>
       </div>

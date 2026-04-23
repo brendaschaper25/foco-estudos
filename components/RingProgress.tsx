@@ -9,7 +9,7 @@ export default function RingProgress({ percent, studiedMin, goalMin, size = 180 
   const radius = (size - 20) / 2
   const circumference = 2 * Math.PI * radius
   const offset = circumference - (percent / 100) * circumference
-  const color = percent >= 100 ? '#4ade80' : '#22d3ee'
+  const color = percent >= 100 ? '#4ade80' : '#ffffff'
 
   return (
     <div className="flex flex-col items-center gap-2">

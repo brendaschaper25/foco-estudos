@@ -14,8 +14,11 @@ export default async function TimerPage() {
   ])
 
   return (
-    <div>
-      <h1 className="text-xl font-bold mb-8">Timer</h1>
+    <div className="space-y-2">
+      <div className="border-b border-white/5 pb-6">
+        <p className="label-dim mb-1">técnica pomodoro</p>
+        <h1 className="text-3xl font-black tracking-tight">Timer</h1>
+      </div>
       <PomodoroTimer settings={settings as Settings} subjects={(subjects as Subject[]) ?? []} />
     </div>
   )

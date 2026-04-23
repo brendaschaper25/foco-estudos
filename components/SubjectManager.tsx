@@ -48,7 +48,7 @@ export default function SubjectManager({ subjects }: { subjects: Subject[] }) {
 
       <div className="space-y-2">
         {subjects.map(s => (
-          <div key={s.id} className="flex items-center gap-3 bg-gray-800 rounded-xl px-4 py-3">
+          <div key={s.id} className="flex items-center gap-3 glass rounded-xl px-4 py-3">
             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: s.cor }} />
             {editingId === s.id ? (
               <input
@@ -57,7 +57,7 @@ export default function SubjectManager({ subjects }: { subjects: Subject[] }) {
                 onChange={e => setEditNome(e.target.value)}
                 onBlur={() => saveRename(s.id)}
                 onKeyDown={e => { if (e.key === 'Enter') saveRename(s.id); if (e.key === 'Escape') setEditingId(null) }}
-                className="flex-1 bg-transparent focus:outline-none border-b border-cyan-500"
+                className="flex-1 bg-transparent focus:outline-none border-b border-white/50"
               />
             ) : (
               <span className="flex-1 cursor-pointer" onClick={() => { setEditingId(s.id); setEditNome(s.nome) }}>{s.nome}</span>
@@ -67,7 +67,7 @@ export default function SubjectManager({ subjects }: { subjects: Subject[] }) {
         ))}
       </div>
 
-      <div className="bg-gray-800 rounded-xl p-4 space-y-3">
+      <div className="glass rounded-xl p-4 space-y-3">
         <input
           value={nome} onChange={e => { setNome(e.target.value); setError('') }}
           placeholder="Nome da matéria" maxLength={50}
@@ -82,7 +82,7 @@ export default function SubjectManager({ subjects }: { subjects: Subject[] }) {
           ))}
         </div>
         <button onClick={addSubject}
-          className="w-full py-2 bg-cyan-500 hover:bg-cyan-400 rounded-lg text-sm transition">
+          className="w-full py-2 bg-white hover:bg-gray-100 text-gray-900 rounded-lg text-sm transition">
           + Adicionar matéria
         </button>
       </div>

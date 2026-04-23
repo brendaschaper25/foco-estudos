@@ -8,21 +8,21 @@ export default function WeeklyChart({ days, subjects }: { days: DayData[], subje
   return (
     <div className="space-y-8">
       <div className="glass rounded-2xl p-6">
-        <h3 className="font-semibold mb-4">Últimos 7 dias</h3>
+        <h3 className="font-bold mb-4 tracking-tight">Horas por dia</h3>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={days}>
-            <XAxis dataKey="label" stroke="#6b7280" fontSize={12} />
-            <YAxis stroke="#6b7280" fontSize={12} unit="h" />
+            <XAxis dataKey="label" stroke="rgba(255,255,255,0.3)" fontSize={12} />
+            <YAxis stroke="rgba(255,255,255,0.3)" fontSize={12} unit="h" />
             <Tooltip formatter={(v) => [`${v}h`, 'Horas']}
-              contentStyle={{ background: '#111827', border: 'none' }} />
-            <Bar dataKey="horas" fill="#22d3ee" radius={[4, 4, 0, 0]} />
+              contentStyle={{ background: '#12151f', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8 }} />
+            <Bar dataKey="horas" fill="white" radius={[4, 4, 0, 0]} fillOpacity={0.85} />
           </BarChart>
         </ResponsiveContainer>
       </div>
 
       {subjects.length > 0 && (
         <div className="glass rounded-2xl p-6">
-          <h3 className="font-semibold mb-4">Por matéria esta semana</h3>
+          <h3 className="font-bold mb-4 tracking-tight">Por matéria</h3>
           <div className="flex items-center gap-8">
             <ResponsiveContainer width={160} height={160}>
               <PieChart>
@@ -30,7 +30,7 @@ export default function WeeklyChart({ days, subjects }: { days: DayData[], subje
                   {subjects.map((s, i) => <Cell key={i} fill={s.cor} />)}
                 </Pie>
                 <Tooltip formatter={(v) => [`${Math.round(Number(v) / 60 * 10) / 10}h`, '']}
-                  contentStyle={{ background: '#111827', border: 'none' }} />
+                  contentStyle={{ background: '#12151f', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8 }} />
               </PieChart>
             </ResponsiveContainer>
             <div className="space-y-2">

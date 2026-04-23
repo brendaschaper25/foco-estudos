@@ -35,16 +35,20 @@ const TECNICAS = [
 
 export default function TecnicasPage() {
   return (
-    <div className="space-y-6">
-      <h1 className="text-xl font-bold">Técnicas de Estudo</h1>
+    <div className="space-y-8">
+      <div className="border-b border-white/5 pb-6">
+        <p className="label-dim mb-1">métodos de estudo</p>
+        <h1 className="text-3xl font-black tracking-tight">Técnicas</h1>
+      </div>
       <div className="space-y-4">
         {TECNICAS.map(t => (
-          <div key={t.nome} className="bg-gray-900 rounded-2xl p-6 space-y-3">
-            <h2 className="font-semibold text-lg text-indigo-400">{t.nome}</h2>
-            <p className="text-gray-300 text-sm">{t.descricao}</p>
-            <p className="text-gray-500 text-sm"><span className="text-gray-400">Quando usar:</span> {t.quando}</p>
+          <div key={t.nome} className="glass glass-hover rounded-2xl p-6 space-y-3">
+            <h2 className="font-bold text-lg text-white">{t.nome}</h2>
+            <p className="text-gray-300 text-sm leading-relaxed">{t.descricao}</p>
+            <p className="text-gray-400 text-sm"><span className="text-white/70">Quando usar:</span> {t.quando}</p>
             <Link href={`/configuracoes?${t.params}`}
-              className="inline-block text-sm px-4 py-2 bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-400 rounded-lg transition">
+              className="inline-block text-sm px-4 py-2 rounded-lg transition font-medium"
+              style={{ background: 'rgba(255,255,255,0.08)', color: 'white', border: '1px solid rgba(255,255,255,0.12)' }}>
               Usar esta técnica →
             </Link>
           </div>

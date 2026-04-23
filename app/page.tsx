@@ -47,27 +47,40 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-10">
 
-      {/* Header editorial */}
+      {/* Header */}
       <div className="flex items-end justify-between border-b border-white/5 pb-6">
         <div>
-          <p className="text-xs tracking-[0.2em] uppercase text-gray-600 mb-1 capitalize">{todayLabel}</p>
+          <p className="label-dim mb-1 capitalize">{todayLabel}</p>
           <h1 className="text-3xl font-black tracking-tight">Hoje</h1>
         </div>
         {streak > 0 && (
-          <div className="flex items-center gap-1.5 text-sm">
-            <span className="text-orange-400 font-bold text-lg">🔥</span>
-            <span className="font-bold text-white">{streak}</span>
-            <span className="text-gray-500 text-xs">{streak === 1 ? 'dia seguido' : 'dias seguidos'}</span>
+          <div className="flex items-center gap-2 glass rounded-full px-3 py-1.5">
+            <span className="text-base">🔥</span>
+            <span className="font-bold text-white text-sm">{streak}</span>
+            <span className="label-dim" style={{ letterSpacing: '0.08em', textTransform: 'none', fontSize: 11 }}>
+              {streak === 1 ? 'dia' : 'dias'}
+            </span>
           </div>
         )}
       </div>
 
-      {/* Hero: progress */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+      {/* Hero: progresso */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
 
-        {/* Ring centralizado */}
+        {/* Anel */}
         <div className="flex justify-center">
           <div className="relative">
+            {/* Anel decorativo extra — profundidade */}
+            <div style={{
+              position: 'absolute', inset: -16,
+              borderRadius: '50%',
+              border: '1px solid rgba(255,255,255,0.05)',
+            }} />
+            <div style={{
+              position: 'absolute', inset: -32,
+              borderRadius: '50%',
+              border: '1px solid rgba(255,255,255,0.03)',
+            }} />
             <RingProgress percent={percent} studiedMin={studiedMin} goalMin={goalMin} size={220} />
             {goalReached && (
               <div className="absolute -top-2 -right-2 text-xl">✨</div>
@@ -75,36 +88,36 @@ export default async function DashboardPage() {
           </div>
         </div>
 
-        {/* Stats em escala editorial */}
+        {/* Stats */}
         <div className="space-y-6">
           <div>
-            <p className="text-xs tracking-widest uppercase text-gray-600 mb-1">estudado</p>
-            <p className="text-5xl font-black tracking-tight" style={{ color: goalReached ? '#34d399' : '#f1f1f5' }}>
+            <p className="label-dim mb-1">estudado</p>
+            <p className="text-5xl font-black tracking-tight" style={{ color: goalReached ? '#4ade80' : 'white' }}>
               {formatMinutes(studiedMin)}
             </p>
           </div>
           <div>
-            <p className="text-xs tracking-widest uppercase text-gray-600 mb-1">meta</p>
-            <p className="text-2xl font-bold text-gray-500">{formatMinutes(goalMin)}</p>
+            <p className="label-dim mb-1">meta</p>
+            <p className="text-2xl font-bold" style={{ color: 'rgba(255,255,255,0.4)' }}>{formatMinutes(goalMin)}</p>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-6">
             <div>
-              <p className="text-xs tracking-widest uppercase text-gray-600 mb-1">sessões</p>
-              <p className="text-2xl font-bold">{todaySessions.length}</p>
+              <p className="label-dim mb-1">sessões</p>
+              <p className="text-2xl font-bold text-white">{todaySessions.length}</p>
             </div>
             <div>
-              <p className="text-xs tracking-widest uppercase text-gray-600 mb-1">progresso</p>
-              <p className="text-2xl font-bold" style={{ color: '#22d3ee' }}>{percent}%</p>
+              <p className="label-dim mb-1">progresso</p>
+              <p className="text-2xl font-bold text-white">{percent}%</p>
             </div>
           </div>
 
           <Link
             href="/timer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-all"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all"
             style={{
-              background: '#22d3ee',
-              color: '#030305',
-              boxShadow: '0 0 24px rgba(34,211,238,0.3)',
+              background: 'white',
+              color: '#07090f',
+              boxShadow: '0 0 32px rgba(255,255,255,0.15)',
             }}
           >
             {studiedMin === 0 ? 'Começar sessão' : 'Continuar'} →

@@ -156,11 +156,12 @@ export default function PomodoroTimer({ settings, subjects }: { settings: Settin
   return (
     <div className="flex flex-col items-center gap-8">
       <div className="w-full max-w-xs">
-        <label className="block text-sm text-gray-400 mb-2">Matéria (opcional)</label>
+        <label className="label-dim block mb-2">matéria (opcional)</label>
         <select
           value={selectedSubjectId ?? ''}
           onChange={e => setSelectedSubjectId(e.target.value || null)}
-          className="w-full px-4 py-2 bg-gray-800 rounded-lg text-sm focus:outline-none"
+          className="w-full px-4 py-2 rounded-lg text-sm focus:outline-none text-white"
+          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
         >
           <option value="">Sem matéria</option>
           {subjects.map(s => (
@@ -169,15 +170,29 @@ export default function PomodoroTimer({ settings, subjects }: { settings: Settin
         </select>
       </div>
 
-      <div className="text-center">
-        <p className="text-gray-400 text-sm mb-4 uppercase tracking-wider">{phaseLabel} · Ciclo {cycleCount + 1}</p>
+      <div className="text-center relative">
+        {/* Decorative rings — pulsam quando o timer está rodando */}
+        <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          {[280, 320, 360].map((size, i) => (
+            <div key={size} style={{
+              position: 'absolute',
+              width: size, height: size,
+              left: '50%', top: '50%',
+              transform: 'translate(-50%, -50%)',
+              borderRadius: '50%',
+              border: `1px solid rgba(255,255,255,${running ? 0.05 - i * 0.012 : 0.025})`,
+              transition: 'border-color 1s ease',
+            }} />
+          ))}
+        </div>
+        <p className="label-dim mb-4">{phaseLabel} · Ciclo {cycleCount + 1}</p>
         <RingProgress percent={percent} studiedMin={Math.floor((totalSecs - secondsLeft) / 60)} goalMin={settings.foco_min} size={220} />
-        <p className="text-5xl font-mono font-bold mt-4">{minutes}:{seconds}</p>
+        <p className="text-5xl font-mono font-bold mt-4 tracking-tight">{minutes}:{seconds}</p>
       </div>
 
       <div className="flex gap-3">
         <button onClick={() => setRunning(r => !r)}
-          className="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 rounded-xl font-medium transition min-w-[100px]">
+          className="px-6 py-3 bg-white hover:bg-gray-100 text-gray-900 rounded-xl font-medium transition min-w-[100px]">
           {running ? 'Pausar' : 'Iniciar'}
         </button>
         {running && (
@@ -199,7 +214,7 @@ export default function PomodoroTimer({ settings, subjects }: { settings: Settin
         </button>
       </div>
 
-      <p className="text-xs text-gray-600">Espaço para pausar / iniciar</p>
+      <p className="label-dim" style={{ letterSpacing: '0.14em', textTransform: 'none', fontSize: 11 }}>espaço para pausar / iniciar</p>
 
       {pendingSession && (
         <button onClick={retryPending} className="text-sm text-yellow-400 hover:underline">
@@ -216,7 +231,7 @@ export default function PomodoroTimer({ settings, subjects }: { settings: Settin
             </p>
             <div className="flex gap-3">
               <button onClick={() => confirmEndModal(true)}
-                className="flex-1 py-2 bg-cyan-500 hover:bg-cyan-400 rounded-lg transition">Sim</button>
+                className="flex-1 py-2 bg-white hover:bg-gray-100 text-gray-900 rounded-lg transition">Sim</button>
               <button onClick={() => confirmEndModal(false)}
                 className="flex-1 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition">Não</button>
             </div>

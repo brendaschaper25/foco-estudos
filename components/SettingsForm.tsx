@@ -30,7 +30,8 @@ export default function SettingsForm({ settings, presets }: { settings: Settings
       <div className="flex items-center gap-2">
         <input type="number" min={min} max={max} value={form[key]}
           onChange={e => setField(key, Math.min(max, Math.max(min, Number(e.target.value))))}
-          className="w-20 px-3 py-1 bg-gray-800 rounded-lg text-center focus:outline-none focus:ring-1 focus:ring-cyan-500" />
+          className="w-20 px-3 py-1 rounded-lg text-center focus:outline-none focus:ring-1 focus:ring-white/30 text-white"
+          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }} />
         <span className="text-gray-500 text-sm w-8">{unit}</span>
       </div>
     </div>
@@ -39,14 +40,14 @@ export default function SettingsForm({ settings, presets }: { settings: Settings
   return (
     <div className="space-y-4">
       <h2 className="font-semibold text-lg">Timer & Meta</h2>
-      <div className="bg-gray-800 rounded-xl p-6 space-y-4">
+      <div className="glass rounded-xl p-6 space-y-4">
         {field('Foco', 'foco_min', 1, 120, 'min')}
         {field('Pausa curta', 'pausa_curta_min', 1, 60, 'min')}
         {field('Pausa longa', 'pausa_longa_min', 1, 120, 'min')}
         {field('Ciclos até pausa longa', 'ciclos_ate_pausa_longa', 1, 10, 'x')}
         {field('Meta diária', 'meta_horas_dia', 0, 24, 'h')}
         <button onClick={save}
-          className="w-full py-2 bg-cyan-500 hover:bg-cyan-400 rounded-lg font-medium transition mt-2">
+          className="w-full py-2 bg-white hover:bg-gray-100 text-gray-900 rounded-lg font-medium transition mt-2">
           Salvar configurações
         </button>
       </div>

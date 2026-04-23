@@ -23,7 +23,10 @@ export default async function ConfiguracoesPage({ searchParams }: { searchParams
 
   return (
     <div className="space-y-8">
-      <h1 className="text-xl font-bold">Configurações</h1>
+      <div className="border-b border-white/5 pb-6">
+        <p className="label-dim mb-1">timer e matérias</p>
+        <h1 className="text-3xl font-black tracking-tight">Configurações</h1>
+      </div>
       <SubjectManager subjects={(subjects as Subject[]) ?? []} />
       <SettingsForm settings={settings as Settings} presets={presets} />
     </div>

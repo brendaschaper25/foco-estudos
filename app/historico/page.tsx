@@ -44,18 +44,23 @@ export default async function HistoricoPage() {
   const totalPomodoros = allSessions.filter(s => s.duracao_min >= 20).length
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-xl font-bold">Histórico</h1>
-      <div className="flex gap-6">
-        <div className="glass rounded-xl p-4 flex-1 text-center">
-          <p className="text-3xl font-bold">{Math.round(totalMin / 60 * 10) / 10}h</p>
-          <p className="text-gray-400 text-sm">na semana</p>
+    <div className="space-y-8">
+      <div className="border-b border-white/5 pb-6">
+        <p className="label-dim mb-1">últimos 7 dias</p>
+        <h1 className="text-3xl font-black tracking-tight">Histórico</h1>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div className="glass rounded-2xl p-5 text-center">
+          <p className="text-4xl font-black tracking-tight">{Math.round(totalMin / 60 * 10) / 10}h</p>
+          <p className="label-dim mt-1" style={{ textTransform: 'none', letterSpacing: '0.06em' }}>na semana</p>
         </div>
-        <div className="glass rounded-xl p-4 flex-1 text-center">
-          <p className="text-3xl font-bold">{totalPomodoros}</p>
-          <p className="text-gray-400 text-sm">pomodoros</p>
+        <div className="glass rounded-2xl p-5 text-center">
+          <p className="text-4xl font-black tracking-tight">{totalPomodoros}</p>
+          <p className="label-dim mt-1" style={{ textTransform: 'none', letterSpacing: '0.06em' }}>pomodoros</p>
         </div>
       </div>
+
       <WeeklyChart days={days} subjects={Object.values(subjectStats)} />
     </div>
   )
