@@ -170,21 +170,7 @@ export default function PomodoroTimer({ settings, subjects }: { settings: Settin
         </select>
       </div>
 
-      <div className="text-center relative">
-        {/* Decorative rings — pulsam quando o timer está rodando */}
-        <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          {[280, 320, 360].map((size, i) => (
-            <div key={size} style={{
-              position: 'absolute',
-              width: size, height: size,
-              left: '50%', top: '50%',
-              transform: 'translate(-50%, -50%)',
-              borderRadius: '50%',
-              border: `1px solid rgba(255,255,255,${running ? 0.05 - i * 0.012 : 0.025})`,
-              transition: 'border-color 1s ease',
-            }} />
-          ))}
-        </div>
+      <div className="text-center">
         <p className="label-dim mb-4">{phaseLabel} · Ciclo {cycleCount + 1}</p>
         <RingProgress percent={percent} studiedMin={Math.floor((totalSecs - secondsLeft) / 60)} goalMin={settings.foco_min} size={220} />
         <p className="text-5xl font-mono font-bold mt-4 tracking-tight">{minutes}:{seconds}</p>

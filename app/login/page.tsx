@@ -152,9 +152,15 @@ export default function LoginPage() {
 
         {/* Form */}
         {sent ? (
-          <div className="glass rounded-2xl px-8 py-6 w-full text-center space-y-2">
-            <p style={{ fontSize: 30 }}>📬</p>
-            <p style={{ color: 'white', fontWeight: 600 }}>Link enviado!</p>
+          <div className="glass rounded-2xl px-8 py-7 w-full text-center space-y-3">
+            {/* Envelope SVG minimalista */}
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" style={{ margin: '0 auto' }}>
+              <rect x="3" y="8" width="30" height="20" rx="2" stroke="white" strokeWidth="1.2" fill="none" opacity="0.9"/>
+              <path d="M 3 10 L 18 20 L 33 10" stroke="white" strokeWidth="1.2" fill="none" opacity="0.7"/>
+              <line x1="3" y1="28" x2="12" y2="20" stroke="white" strokeWidth="1" opacity="0.4"/>
+              <line x1="33" y1="28" x2="24" y2="20" stroke="white" strokeWidth="1" opacity="0.4"/>
+            </svg>
+            <p style={{ color: 'white', fontWeight: 700, letterSpacing: '-0.01em' }}>Link enviado</p>
             <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
               Confira <span style={{ color: 'white', fontWeight: 500 }}>{email}</span>
             </p>

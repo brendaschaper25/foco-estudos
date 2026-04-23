@@ -54,10 +54,13 @@ export default async function DashboardPage() {
           <h1 className="text-3xl font-black tracking-tight">Hoje</h1>
         </div>
         {streak > 0 && (
-          <div className="flex items-center gap-2 glass rounded-full px-3 py-1.5">
-            <span className="text-base">🔥</span>
+          <div className="glass rounded-lg px-3 py-1.5 flex items-center gap-2">
+            {/* Ícone de streak — traço ascendente minimalista */}
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+              <polyline points="2,12 6,2 10,12" stroke="white" strokeWidth="1.4" strokeLinejoin="round" fill="none" opacity="0.7"/>
+            </svg>
             <span className="font-bold text-white text-sm">{streak}</span>
-            <span className="label-dim" style={{ letterSpacing: '0.08em', textTransform: 'none', fontSize: 11 }}>
+            <span className="label-dim" style={{ textTransform: 'none', letterSpacing: '0.05em', fontSize: 11 }}>
               {streak === 1 ? 'dia' : 'dias'}
             </span>
           </div>
@@ -69,32 +72,19 @@ export default async function DashboardPage() {
 
         {/* Anel */}
         <div className="flex justify-center">
-          <div className="relative">
-            {/* Anel decorativo extra — profundidade */}
-            <div style={{
-              position: 'absolute', inset: -16,
-              borderRadius: '50%',
-              border: '1px solid rgba(255,255,255,0.05)',
-            }} />
-            <div style={{
-              position: 'absolute', inset: -32,
-              borderRadius: '50%',
-              border: '1px solid rgba(255,255,255,0.03)',
-            }} />
-            <RingProgress percent={percent} studiedMin={studiedMin} goalMin={goalMin} size={220} />
-            {goalReached && (
-              <div className="absolute -top-2 -right-2 text-xl">✨</div>
-            )}
-          </div>
+          <RingProgress percent={percent} studiedMin={studiedMin} goalMin={goalMin} size={220} />
         </div>
 
         {/* Stats */}
         <div className="space-y-6">
           <div>
             <p className="label-dim mb-1">estudado</p>
-            <p className="text-5xl font-black tracking-tight" style={{ color: goalReached ? '#4ade80' : 'white' }}>
+            <p className="text-5xl font-black tracking-tight" style={{ color: goalReached ? '#e2e8f0' : 'white' }}>
               {formatMinutes(studiedMin)}
             </p>
+            {goalReached && (
+              <p className="label-dim mt-1" style={{ textTransform: 'none', letterSpacing: '0.06em' }}>meta atingida</p>
+            )}
           </div>
           <div>
             <p className="label-dim mb-1">meta</p>
@@ -117,7 +107,7 @@ export default async function DashboardPage() {
             style={{
               background: 'white',
               color: '#07090f',
-              boxShadow: '0 0 32px rgba(255,255,255,0.15)',
+              boxShadow: '0 0 32px rgba(255,255,255,0.12)',
             }}
           >
             {studiedMin === 0 ? 'Começar sessão' : 'Continuar'} →
